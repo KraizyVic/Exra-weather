@@ -13,30 +13,22 @@ class WeatherDetailsScraper {
     if (response.statusCode == 200) {
       Document document = parse(response.body);
       Element? alert = document.querySelector("div.body-item > p");
-      Element? dayAndDate = document.querySelector("div.today-forecast-card.content-module > div.card-header.spaced-content > p.sub");
-      Element? todaysWeatherLink = document.querySelector("div.today-forecast-card.content-module > a");
-      List<Element> todaysWeather = document.querySelectorAll("div.body > div.body-item");
-      List<TodaysWeather> todaysWeatherList = [];
-      for(Element element in todaysWeather){
-        todaysWeatherList.add(
-            TodaysWeather(
+      Element? todayWeatherBlock = document.querySelector("div.today-forecast-card.content-module");
+      List<TodaysWeatherMetrics> todaysWeatherMetrics = [];
+      for(Element element in todayWeatherBlock!.querySelectorAll("div.body > div.body-item")){
+        todaysWeatherMetrics.add(
+            TodaysWeatherMetrics(
                 iconData: element.querySelector("img.icon")?.attributes["src"] ?? "",
                 weather: element.querySelector("p") ?.nodes.firstWhere((node) => node.nodeType == dom.Node.TEXT_NODE, orElse: () => dom.Text('')).text?.trim() ?? "",
                 value: element.querySelector("p > b")?.text ?? "",
             )
         );
       }
-      Element? currentWeatherLink = document.querySelector("a.cur-con-weather-card.is-desktop.lbar-panel.content-module");
-      Element? currentWeatherTime = document.querySelector("a.cur-con-weather-card.is-desktop.lbar-panel.content-module > div.title-container > p.cur-con-weather-card__subtitle");
-      Element? currentWeatherIcon = document.querySelector("div.forecast-container > svg.weather-icon");
-      Element? currentTemperature = document.querySelector("a.cur-con-weather-card.is-desktop.lbar-panel.content-module > div.cur-con-weather-card__body > div.cur-con-weather-card__panel > div.temp-container > div.temp");
-      Element? currentRealFeelTemperature = document.querySelector("a.cur-con-weather-card.is-desktop.lbar-panel.content-module > div.cur-con-weather-card__body > div.cur-con-weather-card__panel > div.temp-container > div.real-feel");
-      Element? currentWeather = document.querySelector("a.cur-con-weather-card.is-desktop.lbar-panel.content-module > div.cur-con-weather-card__body > div.cur-con-weather-card__panel > span.phrase");
-      List<Element> todaysInfo = document.querySelectorAll("a.cur-con-weather-card.is-desktop.lbar-panel.content-module > div.cur-con-weather-card__body > div.cur-con-weather-card__panel.details-container > div.spaced-content.detail");
-      List<TodaysDetails> todaysDetails= [];
-      for(Element element in todaysInfo){
+      Element? currentWeatherBlock = document.querySelector("a.cur-con-weather-card.is-desktop.lbar-panel.content-module");
+      List<CurrentDetails> todaysDetails= [];
+      for(Element element in currentWeatherBlock!.querySelectorAll("div.cur-con-weather-card__body > div.cur-con-weather-card__panel.details-container > div.spaced-content.detail")){
         todaysDetails.add(
-          TodaysDetails(
+          CurrentDetails(
               condition: element.querySelector("span.label")?.text.trim() ?? "",
               value: element.querySelector("span.value")?.text.trim() ?? "",
           )
@@ -44,25 +36,23 @@ class WeatherDetailsScraper {
       }
       Element? lookingAheadLink = document.querySelector("a.local-forecast-summary");
       Element? lookingAhead = document.querySelector("a.local-forecast-summary > p");
-      List<Element> hourly = document.querySelectorAll("div.hourly-list__list > a");
       List<HourlyForecast> hourlyForecast = [];
-      for(Element element in hourly){
+      for(Element element in document.querySelectorAll("div.hourly-list__list > a")){
         hourlyForecast.add(
           HourlyForecast(
-              link: element.querySelector("a")?.attributes["href"] ?? "",
+              link: "${baseUrl}${element.attributes["href"] ?? ""}",
               time: element.querySelector("span.hourly-list__list__item-time")?.text.trim() ?? "",
               weatherIcon: element.querySelector("img.hourly-list__list__item-icon")?.attributes["src"] ?? "",
-              temperature: element.querySelector("img.hourly-list__list__item-temp")?.text.trim() ?? "",
+              temperature: element.querySelector("span.hourly-list__list__item-temp")?.text.trim() ?? "",
               precipitation: int.parse(element.querySelector("div.hourly-list__list__item-precip > span")?.text.trim().replaceAll("%", "") ?? "0"),
           )
         );
       }
-      List<Element> tenDay = document.querySelectorAll("a.daily-list-item");
       List<TenDayForecast> tenDayForecast = [];
-      for (Element element in tenDay){
+      for (Element element in document.querySelectorAll("a.daily-list-item")){
         tenDayForecast.add(
           TenDayForecast(
-              link: element.querySelector("a")?.attributes["href"] ?? "",
+              link: "$baseUrl${element?.attributes["href"] ?? ""}",
               day: element.querySelector("div.date > p.day")?.text.trim() ?? "",
               date: element.querySelectorAll("div.date > p").last?.text.trim() ?? "",
               dayIconImg: element.querySelector("img.icon")?.attributes["src"] ?? "",
@@ -75,56 +65,62 @@ class WeatherDetailsScraper {
           )
         );
       }
-      List<Element> sunMoon = document.querySelectorAll("div.sunrise-sunset__body > div.sunrise-sunset__item");
       List<SunriseSunset> riseSet = [];
-      for(Element element in sunMoon){
+      for(Element element in document.querySelectorAll("div.sunrise-sunset__body > div.sunrise-sunset__item")){
         riseSet.add(
           SunriseSunset(
-              icon: "${baseUrl}${element.querySelector("img")?.attributes["href"] ?? ""}",
+              icon: "${baseUrl}${element.querySelector("img")?.attributes["src"] ?? ""}",
               phrase: element.querySelector("span.sunrise-sunset__phrase")?.text.trim() ?? "",
               riseValue: element.querySelectorAll("div.sunrise-sunset__times-item")[0].querySelector("span.sunrise-sunset__times-value")?.text.trim() ?? "",
               setValue: element.querySelectorAll("div.sunrise-sunset__times-item")[1].querySelector("span.sunrise-sunset__times-value")?.text.trim() ?? "",
           )
         );
       }
-      Element? airQualityLink = document.querySelector("a.air-quality-module-wrapper");
-      Element? airQuality = document.querySelector("div.air-quality-module__row > span.air-quality-module__row__category");
-      Element? airQualityDescription = document.querySelector("p.air-quality-module__statement");
-      Element? healthNactivitiesLink = document.querySelector("div.health-activities__title > a");
-      List<Element> allergens = document.querySelectorAll("div.health-activities.health-activities-free > a.health-activities__item.show");
+      Element? airQualityBlock = document.querySelector("a.air-quality-module-wrapper");
+      //Element? healthNactivitiesLink = document.querySelector("div.health-activities__title > a");
+      TodayWeather todayWeather = TodayWeather(
+          link: "${baseUrl}${todayWeatherBlock?.querySelector("div.today-forecast-card.content-module > a")?.attributes["href"]}",
+          date: todayWeatherBlock?.querySelector("div.card-header.spaced-content > p.sub")?.text.trim() ?? "",
+          todayWeatherMetrics: todaysWeatherMetrics
+      );
+      CurrentWeatherNow currentWeatherNow = CurrentWeatherNow(
+          currentWeatherLink: "${baseUrl}${currentWeatherBlock?.attributes["href"] ?? ""}",
+          curentWeatherTime: currentWeatherBlock?.querySelector("div.title-container > p.cur-con-weather-card__subtitle")?.text.trim() ?? "00",
+          currentWeatherIcon: "${baseUrl}${currentWeatherBlock?.querySelector("div.forecast-container > svg.weather-icon")?.attributes["data-src"]}",
+          currentTemperature: currentWeatherBlock?.querySelector("div.temp-container > div.temp")?.text.trim() ?? "",
+          currentRealFeelTemperature: currentWeatherBlock?.querySelector("div.temp-container > div.real-feel")?.text.replaceAll("RealFeel®", "").trim() ?? "",
+          currentWeather: currentWeatherBlock?.querySelector("span.span.phrase")?.text.trim() ?? "",
+          todaysDetails: todaysDetails,
+      );
+      AirQuality airQuality = AirQuality(
+          airQualityLink: "$baseUrl${airQualityBlock?.attributes["href"] ?? ""}",
+          airQuality: airQualityBlock?.querySelector("div.air-quality-module__row > span.air-quality-module__row__category")?.text.trim() ?? "",
+          airQualityDescroption: airQualityBlock?.querySelector("p.air-quality-module__statement")?.text.trim() ?? "",
+      );
       List<AllergyOutlook> allergyOutlook = [];
-      for(Element element in allergens){
-        allergyOutlook.add(
-          AllergyOutlook(
+        for(Element element in document.querySelectorAll("div.health-activities.health-activities-free > a.health-activities__item.show")){
+          allergyOutlook.add(
+            AllergyOutlook(
               allergenLink: "${baseUrl}${element.attributes["href"]}",
               allergenName: element.querySelector("span.health-activities__item__name")?.text.trim() ?? "",
               allergenValue: element.querySelector("span.health-activities__item__category")?.text.trim() ?? "",
-          )
+            )
         );
       }
-      //print(currentWeatherIcon?.attributes["data-src"]);
+      Alergy allergy = Alergy(
+          healthNactivitiesLink: "$baseUrl${document.querySelector("div.health-activities__title > a")?.attributes["href"] ??""}",
+          allergensOutlook: allergyOutlook,
+      );
       return DetailsPageModel(
-          alert: alert?.text.trim() ?? "Safe",
-          dayAndDate: dayAndDate?.text.trim() ?? "",
-          todaysWeather: todaysWeatherList,
-          todaysWeatherLink: "${baseUrl}${todaysWeatherLink?.attributes["href"]}",
-          currentWeatherLink: currentWeatherLink?.attributes["href"] ?? "",
-          curentWeatherTime: currentWeatherTime?.text.trim() ?? "00",
-          currentWeatherIcon: "${baseUrl}${currentWeatherIcon?.attributes["data-src"]}",
-          currentTemperature: currentTemperature?.text.trim() ?? "",
-          currentRealFeelTemperature: currentRealFeelTemperature?.text.trim() ?? "",
-          currentWeather: currentWeather?.text.trim() ?? "",
-          todaysDetails: todaysDetails,
-          lookingAheadLink: "${baseUrl}${lookingAheadLink}",
-          lookingAhead: lookingAhead?.text.trim() ?? "",
+          alert: alert?.text.trim() ?? "",
+          todayWeather: todayWeather,
+          currentWeather: currentWeatherNow,
+          lookingAhead: null,
           hourlyForecast: hourlyForecast,
           tenDayForecast: tenDayForecast,
-          riseSet: riseSet,
-          airQualityLink: airQualityLink?.attributes["href"] ?? "",
-          airQuality: airQuality?.text.trim() ?? "",
-          airQualityDescroption:airQualityDescription?.text.trim() ?? "",
-          healthNactivitiesLink: healthNactivitiesLink?.attributes["href"] ?? "",
-          alergyOutlook: allergyOutlook,
+          sunriseSunset: riseSet,
+          airQuality: airQuality,
+          allergy: allergy,
       );
     } else {
       throw Exception("Error Blyatt");

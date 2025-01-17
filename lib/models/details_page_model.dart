@@ -1,8 +1,32 @@
 class DetailsPageModel{
   final String alert;
+  final TodayWeather todayWeather;
+  final CurrentWeatherNow currentWeather;
+  final LookingAhead? lookingAhead;
+  final List<HourlyForecast> hourlyForecast;
+  final List<TenDayForecast> tenDayForecast;
+  final List<SunriseSunset> sunriseSunset;
+  final AirQuality airQuality;
+  final Alergy allergy;
+
+  DetailsPageModel({
+    required this.alert,
+    required this.todayWeather,
+    required this.currentWeather,
+    required this.lookingAhead,
+    required this.hourlyForecast,
+    required this.tenDayForecast,
+    required this.sunriseSunset,
+    required this.airQuality,
+    required this.allergy,
+  });
+}
+
+/*class DetailsPageModel{
+  final String alert;
 
   final String dayAndDate;
-  final List<TodaysWeather> todaysWeather;
+  final List<TodaysWeatherMetrics> todaysWeather;
   final String todaysWeatherLink;
 
   final String currentWeatherLink;
@@ -11,7 +35,7 @@ class DetailsPageModel{
   final String currentTemperature;
   final String currentRealFeelTemperature;
   final String currentWeather;
-  final List<TodaysDetails> todaysDetails;
+  final List<CurrentDetails> todaysDetails;
 
   final String lookingAheadLink;
   final String lookingAhead;
@@ -23,7 +47,7 @@ class DetailsPageModel{
   final List<SunriseSunset> riseSet;
   final String airQualityLink;
   final String airQuality;
-  final String airQualityDescroption;
+  final String airQualityDescription;
 
   final String healthNactivitiesLink;
   final List<AllergyOutlook> alergyOutlook;
@@ -47,30 +71,69 @@ class DetailsPageModel{
     required this.riseSet,
     required this.airQuality,
     required this.airQualityLink,
-    required this.airQualityDescroption,
+    required this.airQualityDescription,
     required this.healthNactivitiesLink,
     required this.alergyOutlook
   });
 
+}*/
+class TodayWeather{
+  final String link;
+  final String date;
+  final List<TodaysWeatherMetrics> todayWeatherMetrics;
+  TodayWeather({
+    required this.link,
+    required this.date,
+    required this.todayWeatherMetrics,
+  });
 }
-class TodaysWeather{
+class TodaysWeatherMetrics{
   final String iconData;
   final String weather;
   final String value;
-
-  TodaysWeather({
+  TodaysWeatherMetrics({
     required this.iconData,
     required this.weather,
     required this.value,
   });
 
 }
-class TodaysDetails{
+
+
+class CurrentWeatherNow{
+  final String currentWeatherLink;
+  final String curentWeatherTime;
+  final String currentWeatherIcon;
+  final String currentTemperature;
+  final String currentRealFeelTemperature;
+  final String currentWeather;
+  final List<CurrentDetails> todaysDetails;
+  CurrentWeatherNow({
+    required this.currentWeatherLink,
+    required this.curentWeatherTime,
+    required this.currentWeatherIcon,
+    required this.currentTemperature,
+    required this.currentRealFeelTemperature,
+    required this.currentWeather,
+    required this.todaysDetails,
+  });
+}
+class CurrentDetails{
   final String condition;
   final String value;
-  TodaysDetails({
+  CurrentDetails({
     required this.condition,
     required this.value,
+  });
+}
+
+class LookingAhead{
+  final String lookingAheadLink;
+  final String lookingAhead;
+
+  LookingAhead({
+    required this.lookingAheadLink,
+    required this.lookingAhead
   });
 }
 
@@ -103,7 +166,6 @@ class TenDayForecast{
   final String nightWeather;
   final String lowTemperature;
   final int precipitation;
-
   TenDayForecast({
     required this.link,
     required this.day,
@@ -134,12 +196,32 @@ class SunriseSunset{
 }
 
 
+class AirQuality{
+  final String airQualityLink;
+  final String airQuality;
+  final String airQualityDescroption;
+  AirQuality({
+    required this.airQualityLink,
+    required this.airQuality,
+    required this.airQualityDescroption,
+  });
+}
+
+class Alergy{
+  final String healthNactivitiesLink;
+  final List<AllergyOutlook> allergensOutlook;
+
+  Alergy({
+    required this.healthNactivitiesLink,
+    required this.allergensOutlook,
+  });
+}
+
 class AllergyOutlook{
   final String allergenLink;
   //final String allergenIcon;
   final String allergenName;
   final String allergenValue;
-
   AllergyOutlook({
     required this.allergenLink,
     //required this.allergenIcon,
