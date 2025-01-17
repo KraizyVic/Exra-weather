@@ -1,6 +1,7 @@
 import 'package:exraweather/pages/weather_details_page.dart';
 import 'package:exraweather/scraper/weather_details_scraper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -21,13 +22,19 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.purple,
       body: Center(
-        child: MaterialButton(
-          onPressed: ()=> Navigator.push(
-            context, MaterialPageRoute(
-            builder: (context)=>WeatherDetailsPage()
-          )
-          ),
-          color: Colors.red, child: Text("Press ME"),),),
+        child: Row(
+          children: [
+            SvgPicture.network("https://www.awxcdn.com/adc-assets/images/weathericons/8.svg"),
+            MaterialButton(
+              onPressed: ()=> Navigator.push(
+                context, MaterialPageRoute(
+                builder: (context)=>WeatherDetailsPage()
+              )
+              ),
+              color: Colors.red, child: Text("Press ME"),),
+          ],
+        ),
+      ),
     );
   }
 }

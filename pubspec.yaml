@@ -37,6 +37,7 @@ dependencies:
   html: ^0.15.5
   http: ^1.2.2
   puppeteer: ^3.16.0
+  flutter_svg: ^2.0.17
 
 dev_dependencies:
   flutter_test:

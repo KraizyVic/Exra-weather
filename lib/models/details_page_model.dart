@@ -25,6 +25,7 @@ class DetailsPageModel{
   final String airQuality;
   final String airQualityDescroption;
 
+  final String healthNactivitiesLink;
   final List<AllergyOutlook> alergyOutlook;
 
   DetailsPageModel({
@@ -47,6 +48,7 @@ class DetailsPageModel{
     required this.airQuality,
     required this.airQualityLink,
     required this.airQualityDescroption,
+    required this.healthNactivitiesLink,
     required this.alergyOutlook
   });
 
@@ -94,10 +96,10 @@ class TenDayForecast{
   final String link ;
   final String day;
   final String date;
-  final String dayIcon;
+  final String dayIconImg;
   final String dayWeather;
   final String highTemperature;
-  final String nightIcon;
+  final String nightIconImg;
   final String nightWeather;
   final String lowTemperature;
   final int precipitation;
@@ -106,10 +108,10 @@ class TenDayForecast{
     required this.link,
     required this.day,
     required this.date,
-    required this.dayIcon,
+    required this.dayIconImg,
     required this.dayWeather,
     required this.highTemperature,
-    required this.nightIcon,
+    required this.nightIconImg,
     required this.nightWeather,
     required this.lowTemperature,
     required this.precipitation
