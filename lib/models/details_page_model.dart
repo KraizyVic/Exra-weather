@@ -21,62 +21,6 @@ class DetailsPageModel{
     required this.allergy,
   });
 }
-
-/*class DetailsPageModel{
-  final String alert;
-
-  final String dayAndDate;
-  final List<TodaysWeatherMetrics> todaysWeather;
-  final String todaysWeatherLink;
-
-  final String currentWeatherLink;
-  final String curentWeatherTime;
-  final String currentWeatherIcon;
-  final String currentTemperature;
-  final String currentRealFeelTemperature;
-  final String currentWeather;
-  final List<CurrentDetails> todaysDetails;
-
-  final String lookingAheadLink;
-  final String lookingAhead;
-
-  final List<HourlyForecast> hourlyForecast;
-
-  final List<TenDayForecast> tenDayForecast;
-
-  final List<SunriseSunset> riseSet;
-  final String airQualityLink;
-  final String airQuality;
-  final String airQualityDescription;
-
-  final String healthNactivitiesLink;
-  final List<AllergyOutlook> alergyOutlook;
-
-  DetailsPageModel({
-    required this.alert,
-    required this.dayAndDate,
-    required this.todaysWeather,
-    required this.todaysWeatherLink,
-    required this.currentWeatherLink,
-    required this.curentWeatherTime,
-    required this.currentWeatherIcon,
-    required this.currentTemperature,
-    required this.currentRealFeelTemperature,
-    required this.currentWeather,
-    required this.todaysDetails,
-    required this.lookingAheadLink,
-    required this.lookingAhead,
-    required this.hourlyForecast,
-    required this.tenDayForecast,
-    required this.riseSet,
-    required this.airQuality,
-    required this.airQualityLink,
-    required this.airQualityDescription,
-    required this.healthNactivitiesLink,
-    required this.alergyOutlook
-  });
-
-}*/
 class TodayWeather{
   final String link;
   final String date;

@@ -89,7 +89,7 @@ class WeatherDetailsScraper {
           currentWeatherIcon: "${baseUrl}${currentWeatherBlock?.querySelector("div.forecast-container > svg.weather-icon")?.attributes["data-src"]}",
           currentTemperature: currentWeatherBlock?.querySelector("div.temp-container > div.temp")?.text.trim() ?? "",
           currentRealFeelTemperature: currentWeatherBlock?.querySelector("div.temp-container > div.real-feel")?.text.replaceAll("RealFeel®", "").trim() ?? "",
-          currentWeather: currentWeatherBlock?.querySelector("span.span.phrase")?.text.trim() ?? "",
+          currentWeather: currentWeatherBlock?.querySelector("span.phrase")?.text.trim() ?? "",
           todaysDetails: todaysDetails,
       );
       AirQuality airQuality = AirQuality(
